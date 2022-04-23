@@ -35,32 +35,37 @@ public class Storage {
 
         public static User CurrentUser = null;
 
-        public static void SetInformations() throws UnirestException, IOException {
-            HttpResponse<JsonNode> movieResponse = Unirest.get("http://138.197.181.131:5000/api/movies")
-                    .asJson();
-            HttpResponse<JsonNode> actorResponse = Unirest.get("http://138.197.181.131:5000/api/actors")
-                    .asJson();
-            HttpResponse<JsonNode> userResponse = Unirest.get("http://138.197.181.131:5000/api/users")
-                    .asJson();
-            HttpResponse<JsonNode> commentResponse = Unirest.get("http://138.197.181.131:5000/api/comments")
-                    .asJson();
+        public static void SetInformations()  {
+            try{
+                HttpResponse<JsonNode> movieResponse = Unirest.get("http://138.197.181.131:5000/api/movies")
+                        .asJson();
+                HttpResponse<JsonNode> actorResponse = Unirest.get("http://138.197.181.131:5000/api/actors")
+                        .asJson();
+                HttpResponse<JsonNode> userResponse = Unirest.get("http://138.197.181.131:5000/api/users")
+                        .asJson();
+                HttpResponse<JsonNode> commentResponse = Unirest.get("http://138.197.181.131:5000/api/comments")
+                        .asJson();
 
-            ObjectMapper objectMapper = new ObjectMapper();
+                ObjectMapper objectMapper = new ObjectMapper();
 
-            Movies = objectMapper.readValue(movieResponse.getBody().toString(), new TypeReference<>() {
-            });
-            Collections.sort(Movies, Database::CompareByImdbRate);
-            SetRatingForMovies();
-            Actors = objectMapper.readValue(actorResponse.getBody().toString(), new TypeReference<>() {
-            });
-            Users = objectMapper.readValue(userResponse.getBody().toString(), new TypeReference<>() {
-            });
-            AssignIdToUsers();
-            Comments = objectMapper.readValue(commentResponse.getBody().toString(), new TypeReference<>() {
-            });
-            AssignIdToCommnet();
-            DataAddedd = true;
-        }
+                Movies = objectMapper.readValue(movieResponse.getBody().toString(), new TypeReference<>() {
+                });
+                Collections.sort(Movies, Database::CompareByImdbRate);
+                SetRatingForMovies();
+                Actors = objectMapper.readValue(actorResponse.getBody().toString(), new TypeReference<>() {
+                });
+                Users = objectMapper.readValue(userResponse.getBody().toString(), new TypeReference<>() {
+                });
+                AssignIdToUsers();
+                Comments = objectMapper.readValue(commentResponse.getBody().toString(), new TypeReference<>() {
+                });
+                AssignIdToCommnet();
+                DataAddedd = true;
+
+            }catch (Exception e){
+
+            }
+            }
 
 
         public static void AddActor(Actor actor) {
