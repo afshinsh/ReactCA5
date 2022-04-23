@@ -38,7 +38,7 @@ class BodySection extends React.Component {
     			<div id="fdw-pricing-table">
 					<SpecialOffer destination="Beijing" price="$59" food="Dinner and Breakfast" 
 						decoration="plan1" />
-					<SpecialOffer destination="Toronto" price="$890" food="Breakfast, Lunch, and Dinner" 
+					<SpecialOffer destination="Toronto" price="$890" food="Breakfast, Lunch, and Dinner"
 						decoration="plan2" popular="true" />
 					<SpecialOffer destination="Barcelona" price="$275" food="Dinner and Breakfast" 
 						decoration="plan3" />
