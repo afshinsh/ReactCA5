@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>UTAir Homepage</title>
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css"
+	href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css"
+	href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css"
+	href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="css/util.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
+<link rel="stylesheet" type="text/css" href="css/demo.css" media="all" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="js/react.min.js"></script>
+<script src="js/react-dom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.1.2/react-router-dom.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js"></script>
+<script type="text/babel" src="js/content.js"></script>
+
+</head>
+<body>
+	
+	<div id="menu"></div>
+    <div id="app"></div>
+    <script type="text/babel">
+        ReactDOM.render(<MenuSection />, document.getElementById('menu'));
+        ReactDOM.render(<BodySection />, document.getElementById('app'));
+	</script>
+</body>
+</html>    
