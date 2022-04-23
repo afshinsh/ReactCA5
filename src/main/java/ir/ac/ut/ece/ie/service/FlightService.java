@@ -1,5 +1,6 @@
 package ir.ac.ut.ece.ie.service;
 
+import ir.ac.ut.ece.ie.Storage.Storage;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import ir.ac.ut.ece.ie.repository.FlightRepository;
 
 @RestController
 public class FlightService {
+
 
 	@RequestMapping(value = "/getAvailableSeats/{destination}", method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
