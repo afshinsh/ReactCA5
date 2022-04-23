@@ -1,16 +1,10 @@
 package ir.ac.ut.ece.ie.service;
 
-import ir.ac.ut.ece.ie.Model.Comment;
-import ir.ac.ut.ece.ie.Model.Movie;
-import ir.ac.ut.ece.ie.Model.Rate;
-import ir.ac.ut.ece.ie.Model.WatchList;
+import ir.ac.ut.ece.ie.Model.*;
 import ir.ac.ut.ece.ie.Storage.Storage;
 import ir.ac.ut.ece.ie.Views.MovieListView;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -69,5 +63,28 @@ public class UserService {
             return new ServiceResponse(null, false, "401", e.getMessage());
         }
     }
-}
 
+    @RequestMapping(value = "/Login", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ServiceResponse Login(
+            @RequestParam(value = "email") String email){
+        try {
+            User user = Storage.Database.getUserByEmail(email);
+            if(user == null)
+                return new ServiceResponse(null, false, "404", "Not Found");
+            else{
+                Storage.Database.CurrentUser = user;
+                return new ServiceResponse(user.name, true,"200", "success");
+            }
+        }
+        catch (Exception e){
+            return new ServiceResponse(null, false, "401", e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/Logout", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public void LogOut(){
+        Storage.Database.CurrentUser = null;
+    }
+}

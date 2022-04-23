@@ -73,7 +73,7 @@ public class MovieService {
 
     @RequestMapping(value = "/GetMovies", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ServiceResponse GetMovieById(
+    public ServiceResponse GetMovies(
             @RequestParam(value = "searchTerm") String searchTerm,
             @RequestParam(value = "startDate")String startDate,
             @RequestParam(value = "endDate")String endDate,
