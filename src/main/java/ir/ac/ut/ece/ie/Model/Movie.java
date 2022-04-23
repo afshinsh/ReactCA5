@@ -35,7 +35,8 @@ public class Movie implements Comparable<Movie> {
     public long duration;
     public int ageLimit;
     public Double tempScore;
-
+    public String image;
+    public String coverImage;
     public ArrayList<Rate> rates;
 
 

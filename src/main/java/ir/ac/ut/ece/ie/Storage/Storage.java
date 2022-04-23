@@ -37,9 +37,9 @@ public class Storage {
 
         public static void SetInformations()  {
             try{
-                HttpResponse<JsonNode> movieResponse = Unirest.get("http://138.197.181.131:5000/api/movies")
+                HttpResponse<JsonNode> movieResponse = Unirest.get("http://138.197.181.131:5000/api/v2/movies")
                         .asJson();
-                HttpResponse<JsonNode> actorResponse = Unirest.get("http://138.197.181.131:5000/api/actors")
+                HttpResponse<JsonNode> actorResponse = Unirest.get("http://138.197.181.131:5000/api/v2/actors")
                         .asJson();
                 HttpResponse<JsonNode> userResponse = Unirest.get("http://138.197.181.131:5000/api/users")
                         .asJson();
@@ -48,16 +48,16 @@ public class Storage {
 
                 ObjectMapper objectMapper = new ObjectMapper();
 
-                Movies = objectMapper.readValue(movieResponse.getBody().toString(), new TypeReference<>() {
+                Movies = objectMapper.readValue(movieResponse.getBody().toString(), new TypeReference<List<Movie>>() {
                 });
                 Collections.sort(Movies, Database::CompareByImdbRate);
                 SetRatingForMovies();
-                Actors = objectMapper.readValue(actorResponse.getBody().toString(), new TypeReference<>() {
+                Actors = objectMapper.readValue(actorResponse.getBody().toString(), new TypeReference<List<Actor>>() {
                 });
-                Users = objectMapper.readValue(userResponse.getBody().toString(), new TypeReference<>() {
+                Users = objectMapper.readValue(userResponse.getBody().toString(), new TypeReference<List<User>>() {
                 });
                 AssignIdToUsers();
-                Comments = objectMapper.readValue(commentResponse.getBody().toString(), new TypeReference<>() {
+                Comments = objectMapper.readValue(commentResponse.getBody().toString(), new TypeReference<List<Comment>>() {
                 });
                 AssignIdToCommnet();
                 DataAddedd = true;
