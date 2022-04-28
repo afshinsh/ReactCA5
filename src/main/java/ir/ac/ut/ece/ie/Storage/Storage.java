@@ -60,7 +60,6 @@ public class Storage {
                 Comments = objectMapper.readValue(commentResponse.getBody().toString(), new TypeReference<List<Comment>>() {
                 });
                 AssignIdToCommnet();
-                Storage.Database.AddWatchList(new WatchList("sara@ut.ac.ir", 11));
                 DataAddedd = true;
 
             }catch (Exception e){

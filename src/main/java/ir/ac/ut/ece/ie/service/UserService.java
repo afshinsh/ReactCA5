@@ -48,7 +48,6 @@ public class UserService {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ServiceResponse GetWatchList() {
         try {
-
             List<MovieListView> movieList = Storage.Database.GetUserWatchList();
 
             return new ServiceResponse(movieList, true, "200", "success");
