@@ -84,7 +84,7 @@ class SpecialOffer extends React.Component {
 
     handleRegister(event) {
     	event.preventDefault();
-        ReactDOM.render(<MoviePage movieId={"1"} />, document.getElementById('app'));
+		ReactDOM.render(<WatchList />, document.getElementById('app'));
     }
     
     render() {
@@ -256,8 +256,7 @@ class WatchList extends React.Component{
 			<div>
 				{this.state.movies.map((movie) => (
 					<div className="row justify-content-center align-items-center">
-						<div className="row"
-							 style={{borderRadius: "25px", width: "50%", marginTop: "2%", height: "200px", backgroundColor: "#797777"}}>
+						<div className="row" style={{borderRadius: "25px", width: "50%", marginTop: "2%", height: "200px", backgroundColor: "#797777"}}>
 							<div className="col-3">
 								<img src={movie.image} alt='' style={{marginLeft: "-9%", height: "100%"}}/>
 							</div>
@@ -297,9 +296,8 @@ class WatchList extends React.Component{
 
 
 			<div className="row justify-content-center align-items-center" style={{marginTop : "5%"}}>
-				<div className="row" style={{borderRadius: "25px", width: "55%", marginTop: "3%"
-					, height: "250px", backgroundColor: "rgb(79, 77, 77)", paddingLeft: "5%"}}>
-					<div className="col-4" style={{marginTop: "4%"}} onClick={(e) => this.renderMoviePage(e, this.state.recMovies[0].id)}>
+				<div className="row" style={{borderRadius: "25px", width: "55%", marginTop: "3%", height: "250px", backgroundColor: "rgb(79, 77, 77)", paddingLeft: "5%"}}>
+					<div className="col-4" style={{marginTop: "4%"}} onClick={(e) => this.renderMoviePage(this.state.recMovies[0].id)}>
 						<div className="fullwrap2">
 							<img src={this.state.recMovies[0].image} alt='' style={{height: "80%"}} />
 								<div className="fullcap2" >
@@ -307,19 +305,19 @@ class WatchList extends React.Component{
 								</div>
 						</div>
 					</div>
-					<div className="col-4" style={{marginTop: "1%"}}>
+					<div className="col-4" style={{marginTop: "1%"}} onClick={(e) => this.renderMoviePage(this.state.recMovies[1].id)}>
 						<h6 style={{color: "white", marginLeft: "3%"}}>فیلم های پیشنهادی</h6>
 
 						<div className="fullwrap2" >
-							<img  src={this.state.recMovies[1].image} alt='' style={{height: "73%"}} onClick={(e) => this.renderMoviePage(e, this.state.recMovies[1].id)}/>
+							<img  src={this.state.recMovies[1].image} alt='' style={{height: "73%"}} />
 								<div className="fullcap2">
 									{this.state.recMovies[1].name}
 								</div>
 						</div>
 					</div>
-					<div className="col-4" style={{marginTop: "4%"}}>
+					<div className="col-4" style={{marginTop: "4%"}} onClick={(e) => this.renderMoviePage(this.state.recMovies[2].id)}>
 						<div className="fullwrap2" >
-							<img id="img" src={this.state.recMovies[2].image} alt='' style={{height: "80%"}} onClick={(e) => this.renderMoviePage(e, this.state.recMovies[2].id)}/>
+							<img id="img" src={this.state.recMovies[2].image} alt='' style={{height: "80%"}} />
 								<div className="fullcap2">
 									{this.state.recMovies[2].name}
 								</div>
@@ -336,7 +334,7 @@ class WatchList extends React.Component{
 		)
 	}
 
-	renderMoviePage(e, movie_id){
+	renderMoviePage(movie_id){
 		ReactDOM.render(<MoviePage movieId={movie_id}/>, document.getElementById('app'));
 	}
 	componentDidMount(){

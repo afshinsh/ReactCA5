@@ -41,8 +41,8 @@
 </head>
 <script>
 	fetch('SetInfo');
-	if(localStorage.getItem('user') == null)
-		localStorage.setItem('user', "");
+	//if(localStorage.getItem('user') == null)
+	localStorage.setItem('user', "");
 
 
 </script>
@@ -52,7 +52,7 @@
     <div id="app"></div>
     <script type="text/babel">
         ReactDOM.render(<MenuSection />, document.getElementById('menu'));
-        ReactDOM.render(<BodySection />, document.getElementById('app'));
+        ReactDOM.render(<Login />, document.getElementById('app'));
 	</script>
 </body>
 </html>    
