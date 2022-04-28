@@ -655,10 +655,8 @@ class MoviePage extends React.Component{
 					<div className="row justify-content-center align-items-center">
 						<img width="200px" height="300px" src={this.state.image}/>
 					</div>
-					<div onClick={(e) => this.addToWatchList(movie.id)}
-						className="row justify-content-center align-items-center" style={{textAlign:'center'}}>
-						<a 	style={{width:'55%', marginTop:'5px', backgroundColor:'#B12025'}}
-								className="btn-danger btn-lg">Add to WatchList</a>
+					<div className="row justify-content-center align-items-center" style={{textAlign:'center'}} >
+						<button style={{width:'55%', marginTop:'5px'}} className="btn-danger btn-lg" onClick={(e) => this.addToWatchList(this.props.movieId)} >Add to WatchList</button>
 					</div>
 				</div>
 				<div className="col-8">
@@ -725,9 +723,8 @@ class MoviePage extends React.Component{
 	}
 	addToWatchList(movieId){
 
-
 		fetch('AddWatchList?movie_id='+movieId)
-			.then(response => response.json()).then(data => this.setState(prevState => ({temp:'1'})));
+			.then(response => response.json());
 	}
 	setCommentText(text){
 		this.state.commentText = text;
