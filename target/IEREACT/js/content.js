@@ -3,7 +3,9 @@ function MenuSection() {
 			<nav className="navbar navbar-inverse">
 			<div className="container-fluid fixed-top">
 
-
+				<div className="col-1">
+					<button className="btn btn-lg btn-light" onClick={(e) => gotoMovies(e)}>Movies</button>
+				</div>
 				<div className="col-4">
 					<ul className="nav navbar-nav" >
 						<li className="active"><a href="http://localhost:8080/08_React_war_exploded/">Home</a></li>
@@ -48,6 +50,10 @@ function MenuSection() {
 			return "Logout";
 		else
 			return "Login";
+	}
+	 function gotoMovies(event) {
+		event.preventDefault();
+		ReactDOM.render(<MoviesPage searchTerm="" searchType=""/>, document.getElementById('app'));
 	}
 
 }
@@ -583,7 +589,8 @@ class MoviePage extends React.Component{
 		super(props);
 		this.fetchMovieDetails = this.fetchMovieDetails.bind(this);
 		this.state = {Id:1, name : '', summary : '', releaseDate : '', director : '', writers :[],
-			genres:[], cast:[], imdbRate:0.0, rating:0.0, duration:1, ageLimit:18, comments:[], image:'',coverImage:'', commentText:''};
+			genres:[], cast:[], imdbRate:0.0, rating:0.0, duration:1, ageLimit:18, comments:[],
+			image:'',coverImage:'', commentText:'', temp:''};
 	}
 
 	render(){
@@ -647,10 +654,14 @@ class MoviePage extends React.Component{
 
 			<div className="row align-items-center" style={{marginTop : '-12%', marginLeft : '5%'}}>
 				<div className="col-2">
-
-					<img width="200px" height="300px" src={this.state.image}/>
-
-
+					<div className="row justify-content-center align-items-center">
+						<img width="200px" height="300px" src={this.state.image}/>
+					</div>
+					<div onClick={(e) => this.addToWatchList(movie.id)}
+						className="row justify-content-center align-items-center" style={{textAlign:'center'}}>
+						<a 	style={{width:'55%', marginTop:'5px', backgroundColor:'#B12025'}}
+								className="btn-danger btn-lg">Add to WatchList</a>
+					</div>
 				</div>
 				<div className="col-8">
 					<div className="mask" dir="rtl"
@@ -714,6 +725,12 @@ class MoviePage extends React.Component{
 
 		</div>);
 	}
+	addToWatchList(movieId){
+
+
+		fetch('AddWatchList?movie_id='+movieId)
+			.then(response => response.json()).then(data => this.setState(prevState => ({temp:'1'})));
+	}
 	setCommentText(text){
 		this.state.commentText = text;
 	}
@@ -735,7 +752,7 @@ class MoviePage extends React.Component{
 			body: queryString
 		};
 		fetch('addComment', requestOptions)
-			.then(response => response.json())
+			.then(response => response.json()).then(data => this.setState(prevState => ({temp:'1'})));
 
 	}
 	fetchMovieDetails(){
@@ -775,4 +792,103 @@ class MoviePage extends React.Component{
 	gotoActor(actorId){
 		ReactDOM.render(<Actor actor_id={actorId}/>, document.getElementById('app'));
 	}
+}
+
+class MoviesPage extends React.Component{
+	constructor(props) {
+		super(props);
+		this.fetchMovies = this.fetchMovies.bind(this);
+		this.state = {movies:[]};
+
+	}
+
+	render(){
+		const movieCards = []
+		for (const [index, value] of this.state.movies.entries()) {
+			movieCards.push(<div className="row align-items-start">
+				<div className="col">
+					<img src={value.image}/>
+				</div>
+			</div>)
+		}
+		return (<div style={{backgroundColor: '#292929'}}>
+				<div className="sidebar" style={{float:'right', textAlign: 'center', marginTop:'200px'}}>
+					<a style={{backgroundColor:'#292929', color:'#ffffff'}}>:رتبه بندی بر اساس</a>
+					<a href="#home" onClick={(e) => this.filterMovies("","","",1)}>تاریخ</a>
+					<a href="#news"onClick={(e) => this.filterMovies("","","",-1)}>imdb امتیاز</a>
+				</div>
+
+				<div className="" style={{backgroundColor:'#292929', marginTop:'100px',width:'80%', margin:'5%'}}>
+					<div className='item-container' style={{display:'flex', flexWrap:'wrap'}}>
+						{this.state.movies.map((movie) => (
+							<div onClick={(e) => this.gotoMoviePage(e, movie.id)}
+								 style={{display: 'flex', backgroundColor: '#4E4E50'}} className="card">
+								<div className="image"><img className="card_img" src={movie.image} alt=""/>
+									<i className="fa" id="actor_card">
+										<p style={{fontSize:'medium'}}>{movie.name}</p>
+										<p style={{fontSize:'medium'}}>ImdbRate: {movie.imdbRate}</p>
+									</i>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+
+			</div>
+		);
+	}
+	gotoMoviePage(event, movieId) {
+		event.preventDefault();
+		ReactDOM.render(<MoviePage movieId={movieId}/>, document.getElementById('app'));
+	}
+
+	fetchMovies(searchType, searchTerm){
+		var params = {
+			"searchTerm": this.props.searchTerm,
+			"searchType" : this.props.searchType
+		};
+		var queryString = Object.keys(params).map(function(key) {
+			return key + '=' + params[key]
+		}).join('&');
+		const requestOptions = {
+			method: 'POST',
+			headers: {
+				'content-length' : queryString.length,
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			},
+			body: queryString
+		};
+		fetch('searchMovies', requestOptions)
+			.then(response => response.json())
+			.then(data => this.setState(prevState => ({movies:data})));
+
+	}
+	componentDidMount() {
+		this.fetchMovies(this.props.searchType, this.props.searchTerm);
+
+	}
+	filterMovies(searchTerm, startDate,endDate, sortValue) {
+		event.preventDefault();
+		var params = {
+			"searchTerm": searchTerm,
+			"startDate" : startDate,
+			"endDate" : endDate,
+			"sortValue" : sortValue
+		};
+		var queryString = Object.keys(params).map(function(key) {
+			return key + '=' + params[key]
+		}).join('&');
+		const requestOptions = {
+			method: 'POST',
+			headers: {
+				'content-length' : queryString.length,
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			},
+			body: queryString
+		};
+		fetch('GetMoviesByFilter', requestOptions)
+			.then(response => response.json())
+			.then(data => this.setState(prevState => ({movies:data.Data})));
+	}
+
 }
