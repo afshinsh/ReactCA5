@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InitService {
 
-    @RequestMapping(value = "/setInfo", method = RequestMethod.GET,
+    @RequestMapping(value = "/SetInfo", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public void setInfo() {
         if (!Storage.Database.DataAddedd)

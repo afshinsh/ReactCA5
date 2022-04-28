@@ -17,5 +17,6 @@ public class SingleMovieView {
     public long Duration;
     public int AgeLimit;
     public List<CommentView> Comments;
-
+    public String Image;
+    public String Cover;
 }

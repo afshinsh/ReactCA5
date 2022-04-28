@@ -11,6 +11,7 @@ public class CommentView {
         like = comment.like;
         dislike = comment.dislike;
         nickName = nickname;
+        movieId = comment.movieId;
     }
     public int Id;
     public String UserEmail;
@@ -18,4 +19,5 @@ public class CommentView {
     public int like;
     public int dislike;
     public String nickName;
+    public int movieId;
 }

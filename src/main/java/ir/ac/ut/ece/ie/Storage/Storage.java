@@ -60,12 +60,13 @@ public class Storage {
                 Comments = objectMapper.readValue(commentResponse.getBody().toString(), new TypeReference<List<Comment>>() {
                 });
                 AssignIdToCommnet();
+                Storage.Database.AddWatchList(new WatchList("sara@ut.ac.ir", 11));
                 DataAddedd = true;
 
             }catch (Exception e){
 
             }
-            }
+        }
 
 
         public static void AddActor(Actor actor) {
@@ -113,6 +114,13 @@ public class Storage {
                     return mve;
             return null;
 
+        }
+
+        public static User LoginUser(String email, String pass) {
+            for (User user : Users)
+                if (user.email.equals(email) && user.password.equals(pass))
+                    return user;
+            return null;
         }
 
         public static User getUserByEmail(String email) {
@@ -176,6 +184,7 @@ public class Storage {
         public static List<MovieListView> GetUserWatchList() throws Exception {
             if (CurrentUser == null)
                 new ArrayList<>();
+
             return Mapper.MapWatchList(CurrentUser);
         }
 
@@ -293,7 +302,8 @@ public class Storage {
             view.AgeLimit = movie.ageLimit;
             view.Comments = GetMovieComments(id);
             view.Cast = GetMovieCast(id);
-
+            view.Image = movie.image;
+            view.Cover = movie.coverImage;
             return view;
         }
 
@@ -313,8 +323,10 @@ public class Storage {
             for (int i = 0; i < castIds.size(); i++) {
                 try {
                     Actor actor = GetActorById(Integer.valueOf(arr[i].toString()));
-                    var year = actor.birthDate.substring(0, 4);
+                    var strLength = actor.birthDate.length();
+                    var year = actor.birthDate.substring(strLength - 4, strLength);
                     CastView cv = new CastView(actor.id, actor.name, 2022 - Integer.valueOf(year));
+                    cv.Image = actor.image;
                     result.add(cv);
                 } catch (Exception ex) {
                 }
@@ -362,6 +374,8 @@ public class Storage {
                 for (int i = 0; i < movie.cast.size(); i++) {
                     if (Integer.valueOf(arr[i].toString()) == actorId) {
                         movieList.add(movie);
+                        if(movieList.size() >= 3)
+                            return movieList;
                         break;
                     }
                 }
@@ -454,8 +468,10 @@ public class Storage {
             }
 
             Collections.sort(tempMovies, Collections.reverseOrder());
-
-            return tempMovies;
+            ArrayList<Movie> top3 = new ArrayList<>();
+            for (int i = 0; i < 3; i++)
+                top3.add(tempMovies.get(i));
+            return top3;
         }
 
         private static int GenerateScore(Movie movie, ArrayList<Movie> watchList) {
@@ -476,6 +492,10 @@ public class Storage {
                 }
             }
             return total;
+        }
+
+        public static List<Movie> GetMovies(){
+            return Movies;
         }
 
     }

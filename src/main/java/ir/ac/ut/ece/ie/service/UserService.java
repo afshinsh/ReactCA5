@@ -2,10 +2,12 @@ package ir.ac.ut.ece.ie.service;
 
 import ir.ac.ut.ece.ie.Model.*;
 import ir.ac.ut.ece.ie.Storage.Storage;
+import ir.ac.ut.ece.ie.Views.LoginView;
 import ir.ac.ut.ece.ie.Views.MovieListView;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,14 +26,18 @@ public class UserService {
         }
     }
 
-    @RequestMapping(value = "/RemoveWatchList", method = RequestMethod.POST,
+
+
+    @RequestMapping(value = "/RemoveWatchList/{movie_id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ServiceResponse RemoveWatchList(
-            @RequestParam(value = "movie_id") int movie_id){
+            @PathVariable(value = "movie_id") int movie_id){
 
         try {
             Storage.Database.RemoveFromWatchList(new WatchList(Storage.Database.CurrentUser.email, movie_id));
-            return new ServiceResponse(null, true, "200", "success");
+            List<MovieListView> movieList = Storage.Database.GetUserWatchList();
+
+            return new ServiceResponse(movieList, true, "200", "success");
         }
         catch (Exception e){
             return new ServiceResponse(null, false, "401", e.getMessage());
@@ -40,10 +46,11 @@ public class UserService {
 
     @RequestMapping(value = "/GetWatchList", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ServiceResponse GetWatchList(){
-
+    public ServiceResponse GetWatchList() {
         try {
+
             List<MovieListView> movieList = Storage.Database.GetUserWatchList();
+
             return new ServiceResponse(movieList, true, "200", "success");
         }
         catch (Exception e){
@@ -64,21 +71,21 @@ public class UserService {
         }
     }
 
-    @RequestMapping(value = "/Login", method = RequestMethod.POST,
+    @RequestMapping(value = "/Login", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ServiceResponse Login(
-            @RequestParam(value = "email") String email){
+    public LoginView Login(
+            @RequestParam(value = "email") String email, @RequestParam(value = "pass") String pass){
         try {
-            User user = Storage.Database.getUserByEmail(email);
+            User user = Storage.Database.LoginUser(email, pass);
             if(user == null)
-                return new ServiceResponse(null, false, "404", "Not Found");
-            else{
+                return new LoginView(false, "Login Failed!");
+            else {
                 Storage.Database.CurrentUser = user;
-                return new ServiceResponse(user.name, true,"200", "success");
+                return new LoginView(true, "Login Successfully!");
             }
         }
         catch (Exception e){
-            return new ServiceResponse(null, false, "401", e.getMessage());
+            return new LoginView(false, e.getMessage());
         }
     }
 

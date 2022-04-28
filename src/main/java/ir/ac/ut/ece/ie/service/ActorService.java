@@ -7,34 +7,33 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ActorService {
 
     @RequestMapping(value = "/GetActorMovies/{actor_id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ServiceResponse GetActorMovies(
+    public ServiceResponse<ArrayList<Movie>> GetActorMovies(
             @PathVariable(value = "actor_id") int actor_id){
-
         try {
-            //Actor actor = Storage.Database.GetActorById(actor_id);
             ArrayList<Movie> movieActedList = Storage.Database.GetTotalMovieActedIn(actor_id);
-            return new ServiceResponse(movieActedList, false, "200", "message");
+            return new ServiceResponse<ArrayList<Movie>>(movieActedList, false, "200", "message");
         } catch (Exception e) {
-            return new ServiceResponse(null, false, "401", e.getMessage());
+            return new ServiceResponse<ArrayList<Movie>>(null, false, "401", e.getMessage());
         }
     }
 
     @RequestMapping(value = "/GetActorDetails/{actor_id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ServiceResponse GetActorDetails(
+    public ServiceResponse<Actor> GetActorDetails(
             @PathVariable(value = "actor_id") int actor_id){
 
         try {
             Actor actor = Storage.Database.GetActorById(actor_id);
-            return new ServiceResponse(actor, false, "200", "message");
+            return new ServiceResponse<Actor>(actor, true, "200", "OK");
         } catch (Exception e) {
-            return new ServiceResponse(null, false, "401", e.getMessage());
+            return new ServiceResponse<Actor>(null, false, "401", e.getMessage());
         }
     }
 }

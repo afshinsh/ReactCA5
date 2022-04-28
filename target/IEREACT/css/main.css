@@ -518,9 +518,10 @@ th, td {
 }
 
 .table100.ver5 .ps__rail-y::before {
-  background-color: #ebebeb;
+  background-color: #4f2222;
 }
 
 .table100.ver5 .ps__rail-y .ps__thumb-y::before {
-  background-color: #cccccc;
+  background-color: #934747;
 }
+

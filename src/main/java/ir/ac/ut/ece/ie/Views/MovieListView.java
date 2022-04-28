@@ -14,6 +14,12 @@ public class MovieListView {
         imdbRate = movie.imdbRate;
         releaseDate = movie.releaseDate;
         duration = movie.duration;
+        image = movie.image;
+        coverImage = movie.coverImage;
+        concatGenres = "";
+        for (String gen: movie.genres) {
+            concatGenres += gen + " ";
+        }
     }
 
     public int id;
@@ -24,4 +30,7 @@ public class MovieListView {
     public ArrayList<String> genres;
     public double rating;
     public double imdbRate;
+    public String concatGenres;
+    public String image;
+    public String coverImage;
 }
