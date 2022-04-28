@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class UserService {
 
-    @RequestMapping(value = "/AddWatchList", method = RequestMethod.POST,
+    @RequestMapping(value = "/AddWatchList", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ServiceResponse AddWatchList(
             @RequestParam(value = "movie_id") int movie_id){
