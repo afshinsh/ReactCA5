@@ -1,6 +1,6 @@
 function MenuSection() {
 	return (
-			<nav className="navbar navbar-inverse">
+			<nav className="navbar navbar-inverse fixed-top" style={{backgroundColor:'#B12025'}}>
 			<div className="container-fluid fixed-top">
 
 				<div className="col-1">
