@@ -771,14 +771,14 @@ class MoviePage extends React.Component{
 				genres: data.Data.Genres, cast: data.Data.Cast, imdbRate: data.Data.ImdbRate, rating: data.Data.Rating,
 				duration:data.Data.Duration, ageLimit: data.Data.AgeLimit, comments: data.Data.Comments,
 				image: data.Data.Image, coverImage: data.Data.Cover})));
-		this.timerId = setInterval(
-			() => {this.fetchMovieDetails()}
-			, 2000
-		);
+
 	}
 	componentDidMount() {
 		this.fetchMovieDetails();
-
+		this.timerId = setInterval(
+			() => {this.fetchMovieDetails()}
+			, 1100
+		);
 	}
 	voteComment(movieId, cmId, voteValue){
 		event.preventDefault();
