@@ -18,11 +18,16 @@ function MenuSection() {
 							<a>
 								{localStorage.getItem('user')}</a></li>
 						<li>
+							<a onClick={handleWatchList}>
+								{getWatchText()}</a></li>
+						<li>
 							<a onClick={handleSignup}>
 								{getSignupText()}</a></li>
 						<li>
 							<a onClick={handleClick}><span className="glyphicon glyphicon-log-in"></span>
 								{getText()}</a></li>
+
+
 					</ul>
 				</div>
 
@@ -33,6 +38,11 @@ function MenuSection() {
 	function handleSignup(){
 		if(localStorage.getItem('user') == "")
 			ReactDOM.render(<SignUp/>, document.getElementById('app'));
+	}
+
+	function handleWatchList(){
+		if(localStorage.getItem('user') != "")
+			ReactDOM.render(<WatchList/>, document.getElementById('app'));
 	}
 	function handleClick(){
 		if(localStorage.getItem('user') != "")
@@ -50,6 +60,12 @@ function MenuSection() {
 			return "Logout";
 		else
 			return "Login";
+	}
+
+	function getWatchText(){
+		if(localStorage.getItem('user') != "")
+			return "WatchList";
+		return "";
 	}
 	 function gotoMovies(event) {
 		event.preventDefault();
@@ -508,7 +524,7 @@ class Login extends React.Component {
 		if (this.state.valid == true) {
 			localStorage.setItem('user', this.state.email);
 			ReactDOM.render(<MenuSection/>, document.getElementById('menu'));
-			ReactDOM.render(<BodySection/>, document.getElementById('app'));
+			ReactDOM.render(<MoviesPage searchTerm={""} searchType={""}/>, document.getElementById('app'));
 
 		} else {
 			this.state.error = "کاربر یافت نشد!";
@@ -576,7 +592,7 @@ function Logout() {
 		fetch('Logout');
 		localStorage.setItem('user', "");
 		ReactDOM.render(<MenuSection/>, document.getElementById('menu'));
-		ReactDOM.render(<BodySection/>, document.getElementById('app'));
+		ReactDOM.render(<MoviesPage searchTerm={""} searchType={""}/>, document.getElementById('app'));
 
 	}
 }
