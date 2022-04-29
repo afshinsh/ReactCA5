@@ -40,19 +40,30 @@
 
 </head>
 <script>
-	fetch('SetInfo');
-	//if(localStorage.getItem('user') == null)
-	localStorage.setItem('user', "");
-
+	const email = "empty";
+	if(localStorage.getItem('user') == null){
+		fetch('SetInfo?email=' + email);
+		localStorage.setItem('user', "");
+	}
+	else if(localStorage.getItem('user') != "") {
+		fetch('SetInfo?email=' + localStorage.getItem('user'));
+	}
+	else if(localStorage.getItem('user') == ""){
+		fetch('SetInfo?email=' + email);
+	}
 
 </script>
+
 <body style="background-color: #292929">
 	
 	<div id="menu"></div>
     <div id="app" style="margin-top: 5%"></div>
     <script type="text/babel">
         ReactDOM.render(<MenuSection />, document.getElementById('menu'));
-        ReactDOM.render(<Login />, document.getElementById('app'));
+		if(localStorage.getItem('user') == null || localStorage.getItem('user') == "")
+        	ReactDOM.render(<Login />, document.getElementById('app'));
+		else
+			ReactDOM.render(<MoviesPage searchTerm="" searchType=""/>, document.getElementById('app'))
 	</script>
 </body>
 </html>    
