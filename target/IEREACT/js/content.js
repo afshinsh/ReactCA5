@@ -737,7 +737,8 @@ class MoviePage extends React.Component{
 	addToWatchList(movieId){
 
 		fetch('AddWatchList?movie_id='+movieId)
-			.then(response => response.json());
+			.then(response => response.json())
+			.then(data => ReactDOM.render(<WatchList/>, document.getElementById('app')));
 	}
 	setCommentText(text){
 		this.state.commentText = text;
@@ -770,6 +771,10 @@ class MoviePage extends React.Component{
 				genres: data.Data.Genres, cast: data.Data.Cast, imdbRate: data.Data.ImdbRate, rating: data.Data.Rating,
 				duration:data.Data.Duration, ageLimit: data.Data.AgeLimit, comments: data.Data.Comments,
 				image: data.Data.Image, coverImage: data.Data.Cover})));
+		this.timerId = setInterval(
+			() => {this.fetchMovieDetails()}
+			, 2000
+		);
 	}
 	componentDidMount() {
 		this.fetchMovieDetails();
