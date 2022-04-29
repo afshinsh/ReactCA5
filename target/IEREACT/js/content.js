@@ -3,28 +3,25 @@ function MenuSection() {
 			<nav className="navbar navbar-inverse fixed-top" style={{backgroundColor:'#B12025'}}>
 			<div className="container-fluid fixed-top">
 
-				<div className="col-1">
-					<button className="btn btn-lg btn-light" onClick={(e) => gotoMovies(e)}>Movies</button>
-				</div>
 				<div className="col-4">
 					<ul className="nav navbar-nav" >
-						<li className="active"><a href="http://localhost:8080/08_React_war_exploded/">Home</a></li>
+						<li className="active" style={{backgroundColor: '#B12025'}}><a href="http://localhost:8080/08_React_war_exploded/">Home</a></li>
 					</ul>
 				</div>
 				<div className="col-5">
 					<ul className="nav navbar-nav navbar-right" style={{display:'inline'}}>
 
 						<li>
-							<a>
+							<a style={{color: '#ffffff'}}>
 								{localStorage.getItem('user')}</a></li>
 						<li>
-							<a onClick={handleWatchList}>
+							<a style={{color: '#ffffff'}} onClick={handleWatchList}>
 								{getWatchText()}</a></li>
 						<li>
-							<a onClick={handleSignup}>
+							<a style={{color: '#ffffff'}} onClick={handleSignup}>
 								{getSignupText()}</a></li>
 						<li>
-							<a onClick={handleClick}><span className="glyphicon glyphicon-log-in"></span>
+							<a style={{color: '#ffffff'}} onClick={handleClick}><span className="glyphicon glyphicon-log-in"></span>
 								{getText()}</a></li>
 
 
@@ -763,12 +760,12 @@ class MoviePage extends React.Component{
 			body: queryString
 		};
 		fetch('addComment', requestOptions)
-			.then(response => response.json()).then(data => this.setState(prevState => ({temp:'1'})));
+			.then(response => response.json()).then(data => this.setState(prevState => ({temp:data.Data.Message})));
 
 	}
 	fetchMovieDetails(){
 		fetch('GetMovieById/' + this.props.movieId).then(resp => resp.json())
-			.then(data => this.setState(prevState => ({name: data.Data.Name, summary: data.Data.Summary,
+			.then(data => this.setState(prevState => ({Id:data.Data.Id, name: data.Data.Name, summary: data.Data.Summary,
 				releaseDate: data.Data.ReleaseDate, director : data.Data.Director, writers: data.Data.Writers,
 				genres: data.Data.Genres, cast: data.Data.Cast, imdbRate: data.Data.ImdbRate, rating: data.Data.Rating,
 				duration:data.Data.Duration, ageLimit: data.Data.AgeLimit, comments: data.Data.Comments,
